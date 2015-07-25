@@ -1,34 +1,22 @@
 #!/usr/bin/python
+import sys
 import dhtreader
-import time
 
-# Pin of DHT data and type of sensor
-DHT = 4
-type = 11
+# Choose our device
+DHT11 = 11
+DHT22 = 22
+AM2302 = 22
 
-# Get values from sensor
-def getDhtData():
-    global temperature
-    global humidity
+dhtreader.init()
+dev_type = AMT2302
 
-    dhtreader.init()
-    value = dhtreader.read(type, DHT)
+# Choose our pin
+dhtpin = 4
 
-    i = 0
-    while True:
-        if (value != None):
-            temperature = "%.0f" % value[0]
-            humidity = "%.0f" % value[1]
-            break
-        else:
-            i += 1
-
-            if (i == 10):
-                temperature = 0
-                humidity = 0
-                break
-            time.sleep(0.5)
-
-getDhtData()
-print "temperature: " + str(temperature) + "C"
-print "humidity: " + str(humidity) + "%"
+while True:
+    t, h = dhtreader.read(dev_type, dhtpin)
+    if t and h:
+        print("Temp = {0} *C, Hum = {1} %".format(t, h))
+    else:
+        print("Failed to read from sensor, maybe try again?")
+    time.sleep(2)
