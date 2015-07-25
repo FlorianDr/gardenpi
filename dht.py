@@ -9,7 +9,7 @@ DHT22 = 22
 AM2302 = 22
 
 dhtreader.init()
-dev_type = AMT2302
+dev_type = AM2302
 
 # Choose our pin
 dhtpin = 4
