@@ -2,9 +2,9 @@
 import time
 import RPi.GPIO as GPIO, time, os
 
-def open(seconds, pin):
+def open_for(seconds):
 	GPIO.setmode(GPIO.BCM)
-	GPIO.setup(pin, GPIO.OUT)
-	GPIO.output(pin, False)
+	GPIO.setup(17, GPIO.OUT)
+	GPIO.output(17, False)
 	time.sleep(seconds)
 	GPIO.cleanup()

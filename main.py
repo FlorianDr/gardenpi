@@ -15,6 +15,7 @@ while True:
 	print hum_and_temp
 
 	if (soil_humid < 50):
-		valve.open(17, 5)
+		print "should water now"
+		valve.open_for(5)
 	
 	time.sleep(10)
