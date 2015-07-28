@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import RPi.GPIO as GPIO, time, os
 
-GPIO.setmode(GPIO.BCM)
 
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
+	GPIO.setmode(GPIO.BCM)
 	if ((adcnum > 7) or (adcnum < 0)):
 		return -1
 	GPIO.output(cspin, True)
@@ -42,6 +42,8 @@ def convert_soil_humidity_linear(input):
 	return (input * 1.0 / 700) * 100	
 
 def read():
+	GPIO.setmode(GPIO.BCM)
+
 	# change these as desired
 	SPICLK = 18
 	SPIMISO = 23
