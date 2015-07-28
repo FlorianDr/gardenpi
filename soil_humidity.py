@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import time
 import RPi.GPIO as GPIO, time, os
 
 GPIO.setmode(GPIO.BCM)
@@ -42,7 +41,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 def convert_soil_humidity_linear(input):
 	return (input * 1.0 / 700) * 100	
 
-def read_humidity():
+def read():
 	# change these as desired
 	SPICLK = 18
 	SPIMISO = 23
