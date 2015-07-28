@@ -3,7 +3,7 @@ from influxdb import InfluxDBClient
 
 client = InfluxDBClient('46.101.235.75', 8086, 'root', 'root', 'GardenPi')
 
-def writeHumAndTemp(temp, hum):
+def writeHumAndTemp((temp, hum)):
     json_body = [{
         "measurement": "air_temp_hum",
         "tags": {
