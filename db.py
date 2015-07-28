@@ -3,7 +3,7 @@ from influxdb import InfluxDBClient
 
 client = InfluxDBClient('46.101.235.75', 8086, 'root', 'root', 'GardenPi')
 
-def writeHumAndTemp((temp, hum)):
+def write_temp_and_hum((temp, hum)):
     json_body = [{
         "measurement": "air_temp_hum",
         "tags": {
@@ -14,11 +14,11 @@ def writeHumAndTemp((temp, hum)):
             "hum" : hum
         }
     }]
-    checkResult(client.write_points(json_body))
+    check_result(client.write_points(json_body))
 
-def writeSoilHum(hum):
+def write_soil_hum(hum):
     json_body = [{
-        "measurement": "soil__hum",
+        "measurement": "soil_hum",
         "tags": {
             "host": "tomato-1"
         },
@@ -26,10 +26,10 @@ def writeSoilHum(hum):
             "hum" : hum
         }
     }]
-    checkResult(client.write_points(json_body))
+    check_result(client.write_points(json_body))
 
-def checkResult(result):
+def check_result(result):
     if result:
-        print("Wrote data to database");
+        print("Successfully wrote time series to database.");
     else:
-        print("Failed to write data to database");
+        print("Failed to write to database.");

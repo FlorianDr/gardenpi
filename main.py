@@ -7,15 +7,15 @@ import valve
 
 while True:
 	soil_humid = soil_humidity.read()
-	db.writeSoilHum(soil_humid)
+	db.write_soil_hum(soil_humid)
 	print soil_humid
-	
-	hum_and_temp = dht.read()
-	db.writeHumAndTemp(hum_and_temp)
-	print hum_and_temp
+
+	temp_and_hum = dht.read()
+	db.write_temp_and_hum(temp_and_hum)
+	print temp_and_hum
 
 	if (soil_humid < 50):
 		print "should water now"
 		valve.open_for(5)
-	
+
 	time.sleep(10)
