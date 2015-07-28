@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-import time
 import RPi.GPIO as GPIO, time, os
 
-DEBUG = 1
 GPIO.setmode(GPIO.BCM)
 
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
@@ -43,30 +41,21 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 def convert_soil_humidity_linear(input):
 	return (input * 1.0 / 700) * 100	
 
-if __name__=='__main__':
+def read():
+	# change these as desired
+	SPICLK = 18
+	SPIMISO = 23
+	SPIMOSI = 24
+	SPICS = 25
 
-	try:
-		# change these as desired
-		SPICLK = 18
-		SPIMISO = 23
-		SPIMOSI = 24
-		SPICS = 25
+	# set up the SPI interface pins 
+	GPIO.setup(SPICLK, GPIO.OUT)
+	GPIO.setup(SPIMISO, GPIO.IN)
+	GPIO.setup(SPIMOSI, GPIO.OUT)
+	GPIO.setup(SPICS, GPIO.OUT)
 
-		# set up the SPI interface pins 
-		GPIO.setup(SPICLK, GPIO.OUT)
-		GPIO.setup(SPIMISO, GPIO.IN)
-		GPIO.setup(SPIMOSI, GPIO.OUT)
-		GPIO.setup(SPICS, GPIO.OUT)
-
-		# Note that bitbanging SPI is incredibly slow on the Pi as its not
-		# a RTOS - reading the ADC takes about 30 ms (~30 samples per second)
-		# which is awful for a microcontroller but better-than-nothing for Linux
-		while True:
-			ret = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
-			print ret," ",convert_soil_humidity_linear(ret),"\t"
-			time.sleep(1) 
+	ret = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
        
-	except KeyboardInterrupt:
-		pass
-
 	GPIO.cleanup()
+
+	return convert_soil_humidity_linear(ret)
