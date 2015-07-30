@@ -14,7 +14,7 @@ def write_temp_and_hum((temp, hum)):
             "hum" : hum
         }
     }]
-    check_result(client.write_points(json_body))
+    _make_request(json_body)
 
 def write_soil_hum(hum):
     json_body = [{
@@ -26,9 +26,15 @@ def write_soil_hum(hum):
             "hum" : hum
         }
     }]
-    check_result(client.write_points(json_body))
+    _make_request(json_body)
 
-def check_result(result):
+def _make_request(json_body):
+    try:
+        _check_result(client.write_points(json_body, 's'))
+    except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+        print('Couldnt connect probably');
+
+def _check_result(result):
     if result:
         print("Successfully wrote time series to database.");
     else:
