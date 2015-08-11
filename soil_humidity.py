@@ -39,9 +39,9 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 	return adcout
 
 def convert_soil_humidity_linear(input):
-	return (input * 1.0 / 700) * 100	
+	return (input * 1.0 / 700) * 100
 
-def read():
+def read_from_sensor():
 	GPIO.setmode(GPIO.BCM)
 
 	# change these as desired
@@ -50,14 +50,21 @@ def read():
 	SPIMOSI = 24
 	SPICS = 25
 
-	# set up the SPI interface pins 
+	# set up the SPI interface pins
 	GPIO.setup(SPICLK, GPIO.OUT)
 	GPIO.setup(SPIMISO, GPIO.IN)
 	GPIO.setup(SPIMOSI, GPIO.OUT)
 	GPIO.setup(SPICS, GPIO.OUT)
 
 	ret = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
-       
-	GPIO.cleanup()
 
-	return convert_soil_humidity_linear(ret)
+	GPIO.cleanup()
+	return ret
+
+def read():
+	return convert_soil_humidity_linear(read_from_sensor());
+
+def read_live():
+	while True:
+		print read_from_sensor()
+		sleep(2)
