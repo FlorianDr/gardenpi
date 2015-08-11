@@ -2,6 +2,9 @@
 import RPi.GPIO as GPIO, time, os
 
 
+low_bound = 300.0
+high_bound = 680.0
+
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 	GPIO.setmode(GPIO.BCM)
@@ -39,7 +42,12 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 	return adcout
 
 def convert_soil_humidity_linear(input):
-	return (input * 1.0 / 700) * 100
+	if input < low_bound :
+		return 0
+	elif input > high_bound :
+		return 100
+	else :
+		return (((input * 1.0) - low_bound) / high_bound) * 100
 
 def read_from_sensor():
 	GPIO.setmode(GPIO.BCM)
@@ -67,4 +75,4 @@ def read():
 def read_live():
 	while True:
 		print read_from_sensor()
-		sleep(2)
+		time.sleep(2)

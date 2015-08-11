@@ -28,6 +28,18 @@ def write_soil_hum(hum):
     }]
     _make_request(json_body)
 
+def write_watering(secs):
+    json_body = [{
+        "measurement": "watering",
+        "tags": {
+            "host": "tomato-1"
+        },
+        "fields": {
+            "secs" : secs
+        }
+    }]
+    _make_request(json_body)
+
 def _make_request(json_body):
     try:
         _check_result(client.write_points(json_body, 's'))
