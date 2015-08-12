@@ -1,6 +1,7 @@
 #!/usr/bin/python
-from influxdb import InfluxDBClient
-
+from influxdb import InfluxDBClient 
+from influxdb.client import InfluxDBClientError
+ 
 client = InfluxDBClient('46.101.235.75', 8086, 'root', 'root', 'GardenPi')
 
 def write_temp_and_hum((temp, hum)):
@@ -43,7 +44,7 @@ def write_watering(secs):
 def _make_request(json_body):
     try:
         _check_result(client.write_points(json_body, 's'))
-    except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+    except (InfluxDBClientError) as e:
         print('Couldnt connect probably');
 
 def _check_result(result):
